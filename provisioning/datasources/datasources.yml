@@ -2,7 +2,7 @@ apiVersion: 1
 
 datasources:
   - name: 'sap-hanadb'
-    type: 'vincent-saphanadb-datasource'
+    type: 'hdb'
     access: proxy
     isDefault: false
     orgId: 1
@@ -10,5 +10,18 @@ datasources:
     editable: true
     jsonData:
       path: '/resources'
+      server: xxxxxx-xxxxxx-xxxxxx-xxxxxx-xxxxxx.hana.trial-us10.hanacloud.ondemand.com
+      port: 443
+      username: GRAFANA_HANA_USERNAME
+      tlsSkipVerify: false
+      tlsAuth: false
+      tlsAuthWithCACert: false
+      defaultSchema: EXAMPLE
+      databaseName: DATABASE
+      instance: "01"
     secureJsonData:
       apiKey: 'api-key'
+      password: $SECURE_HANA_PASSWORD_FROM_ENVIRONMENT_VAR
+      tlsCACert:
+      tlsClientCert:
+      tlsClientKey:
