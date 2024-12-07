@@ -6,7 +6,7 @@ FROM grafana/${grafana_image}:${grafana_version}
 ARG development=false
 ARG TARGETARCH
 
-ARG GO_VERSION=1.21.6
+ARG GO_VERSION=1.23.4
 ARG GO_ARCH=${TARGETARCH:-amd64}
 
 ENV DEV "${development}"
@@ -61,10 +61,11 @@ RUN if [ "${development}" = "true" ]; then \
 
 # Installing mage for plugin (re)building
 RUN if [ "${development}" = "true" ]; then \
-    git clone https://github.com/magefile/mage; \
-    cd mage; \
-    export PATH=$PATH:/usr/local/go/bin; \
-    go run bootstrap.go; \
+    /usr/local/go/bin/go install github.com/magefile/mage@latest; \
+    # git clone https://github.com/magefile/mage; \
+    # cd mage; \
+    export PATH=$PATH:/usr/local/go/bin:~/go/bin; \
+    # go run bootstrap.go; \
     fi
 
 # Inject livereload script into grafana index.html

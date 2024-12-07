@@ -2,7 +2,11 @@ module github.com/vincent/sap-hanadb
 
 go 1.22
 
-require github.com/grafana/grafana-plugin-sdk-go v0.260.1
+require (
+	github.com/SAP/go-hdb v1.12.6
+	github.com/grafana/grafana-plugin-sdk-go v0.260.1
+	github.com/stretchr/testify v1.10.0
+)
 
 require (
 	github.com/BurntSushi/toml v1.4.0 // indirect
@@ -13,6 +17,7 @@ require (
 	github.com/cheekybits/genny v1.0.0 // indirect
 	github.com/chromedp/cdproto v0.0.0-20220208224320-6efb837e6bc2 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.5 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/elazarl/goproxy v0.0.0-20230731152917-f99041a5c027 // indirect
 	github.com/fatih/color v1.15.0 // indirect
 	github.com/getkin/kin-openapi v0.128.0 // indirect
@@ -38,6 +43,7 @@ require (
 	github.com/invopop/yaml v0.3.1 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
+	github.com/jszwedko/go-datemath v0.1.1-0.20230526204004-640a500621d6 // indirect
 	github.com/klauspost/compress v1.17.9 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.5 // indirect
 	github.com/magefile/mage v1.15.0 // indirect
@@ -54,6 +60,7 @@ require (
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
 	github.com/perimeterx/marshmallow v1.1.5 // indirect
 	github.com/pierrec/lz4/v4 v4.1.18 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/prometheus/client_golang v1.20.5 // indirect
 	github.com/prometheus/client_model v0.6.1 // indirect
 	github.com/prometheus/common v0.60.1 // indirect
@@ -75,12 +82,13 @@ require (
 	go.opentelemetry.io/otel/sdk v1.32.0 // indirect
 	go.opentelemetry.io/otel/trace v1.32.0 // indirect
 	go.opentelemetry.io/proto/otlp v1.3.1 // indirect
+	golang.org/x/crypto v0.30.0 // indirect
 	golang.org/x/exp v0.0.0-20231006140011-7918f672742d // indirect
 	golang.org/x/mod v0.17.0 // indirect
 	golang.org/x/net v0.31.0 // indirect
-	golang.org/x/sync v0.9.0 // indirect
-	golang.org/x/sys v0.27.0 // indirect
-	golang.org/x/text v0.20.0 // indirect
+	golang.org/x/sync v0.10.0 // indirect
+	golang.org/x/sys v0.28.0 // indirect
+	golang.org/x/text v0.21.0 // indirect
 	golang.org/x/tools v0.21.1-0.20240508182429-e35e4ccd0d2d // indirect
 	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2 // indirect
 	google.golang.org/genproto v0.0.0-20210630183607-d20f26d13c79 // indirect
