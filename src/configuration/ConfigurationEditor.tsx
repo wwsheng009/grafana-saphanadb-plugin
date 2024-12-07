@@ -22,9 +22,9 @@ import {
   Tooltip,
 } from '@grafana/ui';
 
-import { MySQLOptions } from '../types';
+import { HANAOptions } from '../types';
 
-export const ConfigurationEditor = (props: DataSourcePluginOptionsEditorProps<MySQLOptions>) => {
+export const ConfigurationEditor = (props: DataSourcePluginOptionsEditorProps<HANAOptions>) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const { options, onOptionsChange } = props;
@@ -36,13 +36,13 @@ export const ConfigurationEditor = (props: DataSourcePluginOptionsEditorProps<My
     updateDatasourcePluginResetOption(props, 'password');
   };
 
-  const onDSOptionChanged = (property: keyof MySQLOptions) => {
+  const onDSOptionChanged = (property: keyof HANAOptions) => {
     return (event: SyntheticEvent<HTMLInputElement>) => {
       onOptionsChange({ ...options, ...{ [property]: event.currentTarget.value } });
     };
   };
 
-  const onSwitchChanged = (property: keyof MySQLOptions) => {
+  const onSwitchChanged = (property: keyof HANAOptions) => {
     return (event: SyntheticEvent<HTMLInputElement>) => {
       updateDatasourcePluginJsonDataOption(props, property, event.currentTarget.checked);
     };
@@ -53,7 +53,7 @@ export const ConfigurationEditor = (props: DataSourcePluginOptionsEditorProps<My
   return (
     <>
       <DataSourceDescription
-        dataSourceName="MySQL"
+        dataSourceName="HANA"
         docsLink="https://grafana.com/docs/grafana/latest/datasources/mysql/"
         hasRequiredFields={true}
       />
@@ -65,7 +65,7 @@ export const ConfigurationEditor = (props: DataSourcePluginOptionsEditorProps<My
         query. <br />
         Grafana does not validate that queries are safe so queries can contain any SQL statement. For example,
         statements like <code>USE otherdb;</code> and <code>DROP TABLE user;</code> would be executed. <br />
-        To protect against this we <strong>Highly</strong> recommend you create a specific MySQL user with restricted
+        To protect against this we <strong>Highly</strong> recommend you create a specific HANA user with restricted
         permissions. Check out the docs for more information.
       </Collapse>
 
@@ -90,6 +90,16 @@ export const ConfigurationEditor = (props: DataSourcePluginOptionsEditorProps<My
             value={jsonData.database || ''}
             placeholder="Database"
             onChange={onUpdateDatasourceJsonDataOption(props, 'database')}
+          />
+        </Field>
+
+        <Field label="Default Schema">
+          <Input
+            width={WIDTH_LONG}
+            name="defaultSchema"
+            value={jsonData.defaultSchema || ''}
+            placeholder="Schema"
+            onChange={onUpdateDatasourceJsonDataOption(props, 'defaultSchema')}
           />
         </Field>
       </ConfigSection>
@@ -129,7 +139,7 @@ export const ConfigurationEditor = (props: DataSourcePluginOptionsEditorProps<My
 
         <Field
           label="Skip TLS Verification"
-          description="When enabled, skips verification of the MySQL server's TLS certificate chain and host name."
+          description="When enabled, skips verification of the HANA server's TLS certificate chain and host name."
         >
           <Switch onChange={onSwitchChanged('tlsSkipVerify')} value={jsonData.tlsSkipVerify || false} />
         </Field>
@@ -165,7 +175,7 @@ export const ConfigurationEditor = (props: DataSourcePluginOptionsEditorProps<My
       <Divider />
 
       <ConfigSection title="Additional settings" isCollapsible>
-        <ConfigSubSection title="MySQL Options">
+        <ConfigSubSection title="HANA Options">
           <Field
             label={
               <Label>
@@ -179,7 +189,7 @@ export const ConfigurationEditor = (props: DataSourcePluginOptionsEditorProps<My
                         set to something other than UTC. Set this to <code>+00:00</code> so Grafana can handle times
                         properly. Set the value used in the session with <code>SET time_zone=&apos;...&apos;</code>. If
                         you leave this field empty, the timezone will not be updated. You can find more information in
-                        the MySQL documentation.
+                        the HANA documentation.
                       </span>
                     }
                   >

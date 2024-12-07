@@ -9,12 +9,12 @@ import { mapFieldsToTypes } from './fields';
 import { buildColumnQuery, buildTableQuery, showDatabases } from './hanaMetaQuery';
 import { getSqlCompletionProvider } from './sqlCompletionProvider';
 import { quoteIdentifierIfNecessary, quoteLiteral, toRawSql } from './sqlUtil';
-import { MySQLOptions } from './types';
+import { HANAOptions } from './types';
 
 export class SapHanaDatasource extends SqlDatasource {
   sqlLanguageDefinition: LanguageDefinition | undefined;
 
-  constructor(private instanceSettings: DataSourceInstanceSettings<MySQLOptions>) {
+  constructor(private instanceSettings: DataSourceInstanceSettings<HANAOptions>) {
     super(instanceSettings);
   }
 
@@ -45,8 +45,8 @@ export class SapHanaDatasource extends SqlDatasource {
     return datasets.map((t) => quoteIdentifierIfNecessary(t[0]));
   }
 
-  async fetchTables(dataset?: string): Promise<string[]> {
-    const tables = await this.runSql<string[]>(buildTableQuery(dataset), { refId: 'tables' });
+  async fetchTables(dataset?: string, table?: string): Promise<string[]> {
+    const tables = await this.runSql<string[]>(buildTableQuery(dataset, table), { refId: 'tables' });
     return tables.map((t) => quoteIdentifierIfNecessary(t[0]));
   }
 
@@ -67,7 +67,7 @@ export class SapHanaDatasource extends SqlDatasource {
   }
 
   async fetchMeta(identifier?: TableIdentifier) {
-    const defaultDB = this.instanceSettings.jsonData.database;
+    const defaultDB = this.instanceSettings.jsonData.defaultSchema ? this.instanceSettings.jsonData.defaultSchema : this.instanceSettings.jsonData.database;
     if (!identifier?.schema && defaultDB) {
       const tables = await this.fetchTables(defaultDB);
       return tables.map((t) => ({ name: t, completion: `${defaultDB}.${t}`, kind: CompletionItemKind.Class }));
@@ -79,6 +79,10 @@ export class SapHanaDatasource extends SqlDatasource {
         const tables = await this.fetchTables(identifier?.schema);
         return tables.map((t) => ({ name: t, completion: t, kind: CompletionItemKind.Class }));
       } else if (identifier?.table && identifier.schema) {
+        if (identifier?.table.includes("*")) {
+          const tables = await this.fetchTables(identifier?.schema, identifier?.table);
+          return tables.map((t) => ({ name: t, completion: t, kind: CompletionItemKind.Class }));
+        }
         const fields = await this.fetchFields({ dataset: identifier.schema, table: identifier.table });
         return fields.map((t) => ({ name: t.name, completion: t.value, kind: CompletionItemKind.Field }));
       } else {
@@ -89,7 +93,7 @@ export class SapHanaDatasource extends SqlDatasource {
 
   getFunctions = (): ReturnType<DB['functions']> => {
     const fns = [...COMMON_FNS, { name: 'VARIANCE' }, { name: 'STDDEV' }];
-    if ( true ){//config.featureToggles.sqlQuerybuilderFunctionParameters) {
+    if (true) {//config.featureToggles.sqlQuerybuilderFunctionParameters) {
       const columnParam: FuncParameter = {
         name: 'Column',
         required: true,
@@ -109,7 +113,7 @@ export class SapHanaDatasource extends SqlDatasource {
 
     return {
       datasets: () => this.fetchDatasets(),
-      tables: (dataset?: string) => this.fetchTables(dataset),
+      tables: (dataset?: string, table?: string) => this.fetchTables(dataset, table),
       fields: (query: SQLQuery) => this.fetchFields(query),
       validateQuery: (query: SQLQuery, _range?: TimeRange) =>
         Promise.resolve({ query, error: '', isError: false, isValid: true }),

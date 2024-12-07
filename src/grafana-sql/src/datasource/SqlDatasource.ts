@@ -60,7 +60,11 @@ export abstract class SqlDatasource extends DataSourceWithBackend<SQLQuery, SQLO
       The `settingsData.database` will be defined if a default database has been defined in either
       1) the ConfigurationEditor.tsx, OR 2) the provisioning config file, either under `jsondata.database`, or simply `database`.
     */
-    this.preconfiguredDatabase = settingsData.database ?? '';
+    if (!!settingsData.defaultSchema) {
+      this.preconfiguredDatabase = settingsData.defaultSchema;
+    } else {
+      this.preconfiguredDatabase = settingsData.database ?? '';
+    }
     this.annotations = {
       prepareAnnotation: migrateAnnotation,
       QueryEditor: SqlQueryEditorLazy,

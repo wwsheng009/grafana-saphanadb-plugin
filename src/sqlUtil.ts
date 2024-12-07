@@ -42,7 +42,7 @@ export function toRawSql({ sql, dataset, table }: SQLQuery): string {
 
 // Puts backticks (`) around the identifier if it is necessary.
 export function quoteIdentifierIfNecessary(value: string) {
-  return isValidIdentifier(value) ? value : `\`${value}\``;
+  return isValidIdentifier(value) ? value : `"${value}"`;
 }
 
 /**
@@ -50,7 +50,9 @@ export function quoteIdentifierIfNecessary(value: string) {
  * doesn't need to be escaped.
  */
 export function isValidIdentifier(identifier: string): boolean {
-  const isValidName = /^[a-zA-Z_][a-zA-Z0-9_$]*$/g.test(identifier);
+  // const isValidName = /^[a-zA-Z_][a-zA-Z0-9_$]*$/g.test(identifier);
+  const isValidName = /^[A-Z_][A-Z0-9_$]*$/g.test(identifier);
+
   const isReservedWord = RESERVED_WORDS.includes(identifier.toUpperCase());
   return !isReservedWord && isValidName;
 }

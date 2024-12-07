@@ -1,6 +1,6 @@
 import { SQLOptions, SQLQuery } from 'grafana-sql';
 
-export interface MySQLOptions extends SQLOptions {
+export interface HANAOptions extends SQLOptions {
   allowCleartextPasswords?: boolean;
 }
 

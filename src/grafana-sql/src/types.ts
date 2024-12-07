@@ -43,6 +43,8 @@ export interface SQLOptions extends SQLConnectionLimits, DataSourceJsonData {
   database: string;
   url: string;
   timeInterval: string;
+  type: string;
+  defaultSchema: string;
 }
 
 export enum QueryFormat {
@@ -126,7 +128,7 @@ export interface SQLSelectableValue extends SelectableValue {
 export interface DB {
   init?: (datasourceId?: string) => Promise<boolean>;
   datasets: () => Promise<string[]>;
-  tables: (dataset?: string) => Promise<string[]>;
+  tables: (dataset?: string, table?: string) => Promise<string[]>;
   fields: (query: SQLQuery, order?: boolean) => Promise<SQLSelectableValue[]>;
   validateQuery: (query: SQLQuery, range?: TimeRange) => Promise<ValidationResults>;
   dsID: () => number;
