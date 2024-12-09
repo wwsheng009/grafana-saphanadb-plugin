@@ -313,21 +313,17 @@ func (t *mysqlQueryResultTransformer) GetConverterList2() []sqlutil.Converter {
 			FrameConverter: sqlutil.FrameConverter{
 				FieldType: data.FieldTypeFloat64,
 				ConverterFunc: func(in interface{}) (interface{}, error) {
-
 					rat, ok := in.(*driver.Decimal)
 					if !ok {
 						return nil, fmt.Errorf("value is not of type *driver.Decimal")
 					}
-					// Step 2: Convert *big.Rat to *string
 					bigRat, _ := rat.Value()
 					rat1, ok := bigRat.(*big.Rat)
 					if !ok {
 						return nil, fmt.Errorf("decimal: invalid data type %T", bigRat)
 					}
-					// Step 2: Convert *big.Rat to *string
-					strValue, _ := rat1.Float64()
-					// return 10.1,nil
-					return strValue, nil
+					f, _ := rat1.Float64()
+					return f, nil
 				},
 			},
 		},

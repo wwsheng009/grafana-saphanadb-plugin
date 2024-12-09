@@ -11,20 +11,28 @@ export function mapFieldsToTypes(columns: SQLSelectableValue[]) {
         break;
       }
       case 'BYTES':
+      case 'TEXT':
+      case 'NVARCHAR':
       case 'VARCHAR': {
         type = 'text';
         break;
       }
       case 'FLOAT':
       case 'FLOAT64':
+      case 'BIGINT':
       case 'INT':
+      case 'TINYINT':
+      case 'SMALLINT':
       case 'INTEGER':
       case 'INT64':
+      case 'DECIMAL':
+      case 'REAL':
       case 'NUMERIC':
       case 'BIGNUMERIC': {
         type = 'number';
         break;
       }
+      case 'SECONDDATE':
       case 'DATE': {
         type = 'date';
         break;

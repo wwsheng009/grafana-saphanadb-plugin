@@ -53,10 +53,8 @@ func GetConverterList2() []sqlutil.Converter {
 					if !ok {
 						return nil, fmt.Errorf("decimal: invalid data type %T", bigRat)
 					}
-					// Step 2: Convert *big.Rat to *string
-					strValue,_ := rat1.Float64()
-					// return 10.1,nil
-					return strValue, nil
+					f,_ := rat1.Float64()
+					return f, nil
 				},
 			},
 		},

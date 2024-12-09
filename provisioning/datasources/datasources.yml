@@ -2,7 +2,7 @@ apiVersion: 1
 
 datasources:
   - name: 'sap-hanadb'
-    type: 'hdb'
+    type: 'vincent-saphanadb-datasource'
     access: proxy
     isDefault: false
     orgId: 1

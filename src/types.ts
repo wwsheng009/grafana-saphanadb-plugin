@@ -4,4 +4,4 @@ export interface HANAOptions extends SQLOptions {
   allowCleartextPasswords?: boolean;
 }
 
-export interface MySQLQuery extends SQLQuery {}
+export interface HANAQuery extends SQLQuery { }

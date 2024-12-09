@@ -23,9 +23,7 @@ export const TableSelector = ({ db, dataset, table, className, onChange, inputId
 
   // Fetch tables from the API based on input value
   const fetchTables = useCallback(async (input: string) => {
-    debugger;
     if (!dataset) {
-      debugger;
       setOptions([]);
       return;
     }
@@ -54,9 +52,8 @@ export const TableSelector = ({ db, dataset, table, className, onChange, inputId
       if (inputValue.includes('*')) {
         fetchTables(inputValue); // Fetch tables with the input value if '*' is included
       } else {
-        debugger;
         // Optionally, you can handle selecting a table without '*'
-        setOptions([]); // Reset options if the input doesn't contain '*'
+        // setOptions([]); // Reset options if the input doesn't contain '*'
       }
     }
   };

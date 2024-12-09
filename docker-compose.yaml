@@ -8,9 +8,9 @@ services:
       args:
         grafana_image: ${GRAFANA_IMAGE:-grafana-enterprise}
         grafana_version: ${GRAFANA_VERSION:-11.3.1}
-        development: ${DEVELOPMENT:-true}
+        development: ${DEVELOPMENT:-false}
     ports:
-      - 3000:3000/tcp
+      - 3088:3000/tcp
       - 2345:2345/tcp # delve
     security_opt:
       - 'apparmor:unconfined'
