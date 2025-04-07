@@ -16,21 +16,21 @@ const sExpr = `\$` + rsIdentifier + `\(([^\)]*)\)`
 
 var restrictedRegExp = regexp.MustCompile(`(?im)([\s]*show[\s]+grants|[\s,]session_user\([^\)]*\)|[\s,]current_user(\([^\)]*\))?|[\s,]system_user\([^\)]*\)|[\s,]user\([^\)]*\))([\s,;]|$)`)
 
-type mySQLMacroEngine struct {
+type hanaMacroEngine struct {
 	*sqleng.SQLMacroEngineBase
 	logger    log.Logger
 	userError string
 }
 
-func newMysqlMacroEngine(logger log.Logger, userFacingDefaultError string) sqleng.SQLMacroEngine {
-	return &mySQLMacroEngine{
+func newHanaMacroEngine(logger log.Logger, userFacingDefaultError string) sqleng.SQLMacroEngine {
+	return &hanaMacroEngine{
 		SQLMacroEngineBase: sqleng.NewSQLMacroEngineBase(),
 		logger:             logger,
 		userError:          userFacingDefaultError,
 	}
 }
 
-func (m *mySQLMacroEngine) Interpolate(query *backend.DataQuery, timeRange backend.TimeRange, sql string) (string, error) {
+func (m *hanaMacroEngine) Interpolate(query *backend.DataQuery, timeRange backend.TimeRange, sql string) (string, error) {
 	matches := restrictedRegExp.FindAllStringSubmatch(sql, 1)
 	if len(matches) > 0 {
 		m.logger.Error("Show grants, session_user(), current_user(), system_user() or user() not allowed in query")
@@ -61,7 +61,7 @@ func (m *mySQLMacroEngine) Interpolate(query *backend.DataQuery, timeRange backe
 	return sql, nil
 }
 
-func (m *mySQLMacroEngine) evaluateMacro(timeRange backend.TimeRange, query *backend.DataQuery, name string, args []string) (string, error) {
+func (m *hanaMacroEngine) evaluateMacro(timeRange backend.TimeRange, query *backend.DataQuery, name string, args []string) (string, error) {
 	switch name {
 	case "__timeEpoch", "__time":
 		if len(args) == 0 {

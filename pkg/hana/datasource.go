@@ -174,7 +174,7 @@ func NewInstanceSettings(logger log.Logger) datasource.InstanceFactoryFunc {
 			return nil, err
 		}
 
-		rowTransformer := mysqlQueryResultTransformer{
+		rowTransformer := hanaQueryResultTransformer{
 			userError: userFacingDefaultError,
 		}
 
@@ -187,7 +187,7 @@ func NewInstanceSettings(logger log.Logger) datasource.InstanceFactoryFunc {
 		db.SetMaxIdleConns(config.DSInfo.JsonData.MaxIdleConns)
 		db.SetConnMaxLifetime(time.Duration(config.DSInfo.JsonData.ConnMaxLifetime) * time.Second)
 
-		return sqleng.NewQueryDataHandler(userFacingDefaultError, db, config, &rowTransformer, newMysqlMacroEngine(logger, userFacingDefaultError), logger)
+		return sqleng.NewQueryDataHandler(userFacingDefaultError, db, config, &rowTransformer, newHanaMacroEngine(logger, userFacingDefaultError), logger)
 	}
 }
 
@@ -283,11 +283,11 @@ func NewInstanceSettings(logger log.Logger) datasource.InstanceFactoryFunc {
 // 	}, nil
 // }
 
-type mysqlQueryResultTransformer struct {
+type hanaQueryResultTransformer struct {
 	userError string
 }
 
-func (t *mysqlQueryResultTransformer) TransformQueryError(logger log.Logger, err error) error {
+func (t *hanaQueryResultTransformer) TransformQueryError(logger log.Logger, err error) error {
 	var driverErr driver.Error
 	if errors.As(err, &driverErr) {
 		logger.Error("Query error", "error", err)
@@ -296,7 +296,7 @@ func (t *mysqlQueryResultTransformer) TransformQueryError(logger log.Logger, err
 
 	return err
 }
-func (t *mysqlQueryResultTransformer) GetConverterList2() []sqlutil.Converter {
+func (t *hanaQueryResultTransformer) GetConverterList2() []sqlutil.Converter {
 
 	var fixedPattern = regexp.MustCompile(`FIXED\d{1,2}`)
 
@@ -338,7 +338,7 @@ func (t *mysqlQueryResultTransformer) GetConverterList2() []sqlutil.Converter {
 		},
 	}
 }
-func (t *mysqlQueryResultTransformer) GetConverterList() []sqlutil.StringConverter {
+func (t *hanaQueryResultTransformer) GetConverterList() []sqlutil.StringConverter {
 	// For the HANA driver , we have these possible data types:
 	// https://help.sap.com/docs/HANA_SERVICE_CF/7c78579ce9b14a669c1f3295b0d8ca16/20a1569875191014b507cf392724b7eb.html.
 	// Since by default, we convert all into String, we need only to handle the Numeric data types
