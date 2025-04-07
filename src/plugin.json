@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/grafana/grafana/main/docs/sources/developers/plugins/plugin.schema.json",
   "type": "datasource",
   "name": "Sap-Hanadb",
-  "id": "vincent-saphanadb-datasource",
+  "id": "wwsheng009-saphanadb-datasource",
   "metrics": true,
   "backend": true,
   "executable": "gpx_sap_hanadb",

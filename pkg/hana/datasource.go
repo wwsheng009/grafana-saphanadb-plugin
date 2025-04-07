@@ -311,16 +311,16 @@ func (t *mysqlQueryResultTransformer) GetConverterList2() []sqlutil.Converter {
 			// InputTypeName: "FIXED8",
 			InputTypeRegex: fixedPattern,
 			FrameConverter: sqlutil.FrameConverter{
-				FieldType: data.FieldTypeFloat64,
+				FieldType: data.FieldTypeNullableFloat64,
 				ConverterFunc: func(in interface{}) (interface{}, error) {
 					switch x := in.(type) {
 					case *driver.NullDecimal:
 						if x.Valid {
 							d := (*big.Rat)(x.Decimal)
 							f, _ := d.Float64()
-							return f, nil
+							return &f, nil
 						} else {
-							return 0, nil
+							return nil, nil
 						}
 					case *driver.Decimal:
 						{
@@ -333,7 +333,7 @@ func (t *mysqlQueryResultTransformer) GetConverterList2() []sqlutil.Converter {
 								return nil, fmt.Errorf("decimal: invalid data type %T", bigRat)
 							}
 							f, _ := rat1.Float64()
-							return f, nil
+							return &f, nil
 						}
 					}
 					return nil, fmt.Errorf("decimal: invalid data value")

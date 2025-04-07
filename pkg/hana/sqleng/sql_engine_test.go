@@ -24,7 +24,7 @@ const (
 )
 const (
 	driverName = "hdb"
-	hdbDsn     = "hdb://HANA_READONLY:Hana@readonly456@192.168.1.7:30015"
+	hdbDsn     = "hdb://HANA_READONLY:Hana@readonly456@192.168.32.182:30015"
 )
 
 func GetConverterList2() []sqlutil.Converter {
@@ -37,16 +37,16 @@ func GetConverterList2() []sqlutil.Converter {
 			// InputTypeName: "FIXED8",
 			InputTypeRegex: fixedPattern,
 			FrameConverter: sqlutil.FrameConverter{
-				FieldType: data.FieldTypeFloat64,
+				FieldType: data.FieldTypeNullableFloat64,
 				ConverterFunc: func(in interface{}) (interface{}, error) {
 					switch x := in.(type) {
 					case *driver.NullDecimal:
 						if x.Valid {
 							d := (*big.Rat)(x.Decimal)
 							f, _ := d.Float64()
-							return f, nil
+							return &f, nil
 						} else {
-							return 0, nil
+							return nil, nil
 						}
 
 					case *driver.Decimal:
@@ -60,7 +60,7 @@ func GetConverterList2() []sqlutil.Converter {
 								return nil, fmt.Errorf("decimal: invalid data type %T", bigRat)
 							}
 							f, _ := rat1.Float64()
-							return f, nil
+							return &f, nil
 						}
 					}
 					return nil, fmt.Errorf("decimal: invalid data value")

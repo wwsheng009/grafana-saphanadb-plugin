@@ -20,7 +20,7 @@ func main() {
 	// new datasource instance created using NewSampleDatasource factory.
 	logger := backend.NewLoggerWith("logger", "tsdb.hana")
 
-	if err := datasource.Manage("vincent-saphanadb-datasource", hana.NewInstanceSettings(logger), datasource.ManageOpts{}); err != nil {
+	if err := datasource.Manage("wwsheng009-saphanadb-datasource", hana.NewInstanceSettings(logger), datasource.ManageOpts{}); err != nil {
 		log.DefaultLogger.Error(err.Error())
 		os.Exit(1)
 	}
