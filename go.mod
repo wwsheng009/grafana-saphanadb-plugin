@@ -1,8 +1,6 @@
 module github.com/vincent/sap-hanadb
 
-go 1.23.5
-
-toolchain go1.23.8
+go 1.24.2
 
 require (
 	github.com/SAP/go-hdb v1.12.6

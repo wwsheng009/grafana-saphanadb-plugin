@@ -290,11 +290,7 @@ type mysqlQueryResultTransformer struct {
 func (t *mysqlQueryResultTransformer) TransformQueryError(logger log.Logger, err error) error {
 	var driverErr driver.Error
 	if errors.As(err, &driverErr) {
-		// if driverErr != mysqlerr.ER_PARSE_ERROR && driverErr.Number != mysqlerr.ER_BAD_FIELD_ERROR &&
-		// 	driverErr.Number != mysqlerr.ER_NO_SUCH_TABLE {
 		logger.Error("Query error", "error", err)
-		// 	return fmt.Errorf(("query failed - %s"), t.userError)
-		// }
 		return fmt.Errorf(("query failed - (%d):%s"), driverErr.Code(), driverErr.Text())
 	}
 
@@ -343,8 +339,8 @@ func (t *mysqlQueryResultTransformer) GetConverterList2() []sqlutil.Converter {
 	}
 }
 func (t *mysqlQueryResultTransformer) GetConverterList() []sqlutil.StringConverter {
-	// For the MySQL driver , we have these possible data types:
-	// https://www.w3schools.com/sql/sql_datatypes.asp#:~:text=In%20MySQL%20there%20are%20three,numeric%2C%20and%20date%20and%20time.
+	// For the HANA driver , we have these possible data types:
+	// https://help.sap.com/docs/HANA_SERVICE_CF/7c78579ce9b14a669c1f3295b0d8ca16/20a1569875191014b507cf392724b7eb.html.
 	// Since by default, we convert all into String, we need only to handle the Numeric data types
 	return []sqlutil.StringConverter{
 		{

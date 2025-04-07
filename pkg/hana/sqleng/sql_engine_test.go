@@ -70,8 +70,8 @@ func GetConverterList2() []sqlutil.Converter {
 	}
 }
 func GetConverterList() []sqlutil.StringConverter {
-	// For the MySQL driver , we have these possible data types:
-	// https://www.w3schools.com/sql/sql_datatypes.asp#:~:text=In%20MySQL%20there%20are%20three,numeric%2C%20and%20date%20and%20time.
+	// For the HANA driver , we have these possible data types:
+	// https://help.sap.com/docs/HANA_SERVICE_CF/7c78579ce9b14a669c1f3295b0d8ca16/20a1569875191014b507cf392724b7eb.html.
 	// Since by default, we convert all into String, we need only to handle the Numeric data types
 	return []sqlutil.StringConverter{
 		{

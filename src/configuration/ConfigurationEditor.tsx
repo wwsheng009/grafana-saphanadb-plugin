@@ -78,7 +78,7 @@ export const ConfigurationEditor = (props: DataSourcePluginOptionsEditorProps<HA
             name="host"
             type="text"
             value={options.url || ''}
-            placeholder="localhost:3306"
+            placeholder="localhost:30015"
             onChange={onDSOptionChanged('url')}
           />
         </Field>

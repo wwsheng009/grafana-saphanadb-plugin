@@ -32,7 +32,7 @@ export class SapHanaDatasource extends SqlDatasource {
     };
 
     this.sqlLanguageDefinition = {
-      id: 'mysql',
+      id: 'hana',
       completionProvider: getSqlCompletionProvider(args),
       formatter: formatSQL,
     };

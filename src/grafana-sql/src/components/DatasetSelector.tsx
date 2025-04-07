@@ -26,7 +26,7 @@ export const DatasetSelector = ({
   preconfiguredDataset,
 }: DatasetSelectorProps) => {
   /*
-    The behavior of this component - for MSSQL and MySQL datasources - is based on whether the user chose to create a datasource
+    The behavior of this component - for HANA datasources - is based on whether the user chose to create a datasource
     with or without a default database (preconfiguredDataset). If the user configured a default database, this selector
     should only allow that single preconfigured database option to be selected. If the user chose to NOT assign/configure a default database,
     then the user should be able to use this component to choose between multiple databases available to the datasource.
@@ -37,7 +37,7 @@ export const DatasetSelector = ({
 
   const state = useAsync(async () => {
     if (isSqlDatasourceDatabaseSelectionFeatureFlagEnabled()) {
-      // If a default database is already configured for a MSSQL or MySQL data source, OR the data source is Postgres, no need to fetch other databases.
+      // If a default database is already configured for a HANA data source, OR the data source is Postgres, no need to fetch other databases.
       if (hasPreconfigCondition) {
         // Set the current database to the preconfigured database.
         onChange(toOption(preconfiguredDataset));

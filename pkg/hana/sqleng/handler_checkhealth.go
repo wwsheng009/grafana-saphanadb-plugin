@@ -48,12 +48,12 @@ func ErrToHealthCheckResult(err error) (*backend.CheckHealthResult, error) {
 	}
 	var driverErr driver.Error
 	if errors.As(err, &driverErr) {
-		res.Message = "Database error: Failed to connect to the MySQL server"
+		res.Message = "Database error: Failed to connect to the SAP HANA server"
 		if driverErr != nil && driverErr.Code() > 0 {
-			res.Message += fmt.Sprintf(". MySQL error number: %d", driverErr.Code())
+			res.Message += fmt.Sprintf(". HANA error number: %d", driverErr.Code())
 		}
 		details["verboseMessage"] = err.Error()
-		details["errorDetailsLink"] = "https://dev.mysql.com/doc/mysql-errors/8.4/en/"
+		details["errorDetailsLink"] = "https://help.sap.com/docs/HANA_SERVICE_CF/7c78579ce9b14a669c1f3295b0d8ca16/20a78d3275191014b41bae7c4a46d835.html"
 	}
 	detailBytes, marshalErr := json.Marshal(details)
 	if marshalErr != nil {

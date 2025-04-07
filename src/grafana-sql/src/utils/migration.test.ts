@@ -6,7 +6,7 @@ describe('Annotation migration', () => {
   const annotation = {
     datasource: {
       uid: 'P4FDCC188E688367F',
-      type: 'mysql',
+      type: 'wwsheng009-saphanadb-datasource',
     },
     enable: false,
     hide: false,

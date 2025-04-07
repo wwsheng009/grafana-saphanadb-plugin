@@ -46,7 +46,7 @@ export function quoteIdentifierIfNecessary(value: string) {
 }
 
 /**
- * Validates the identifier from MySql and returns true if it
+ * Validates the identifier from HANA and returns true if it
  * doesn't need to be escaped.
  */
 export function isValidIdentifier(identifier: string): boolean {
